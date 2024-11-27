@@ -74,3 +74,30 @@ body {
 .active {
   color: var(--secondary);
 }
+
+/* Header */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header span {
+  font-size: 30px;
+}
+
+/* Search bar*/
+
+.searchBar {
+  display: flex;
+  width: 100%;
+}
+
+.searchBar input {
+  width: 70%;
+  padding: 20px;
+  border-radius: 18px;
+  outline: none;
+  border: none;
+}

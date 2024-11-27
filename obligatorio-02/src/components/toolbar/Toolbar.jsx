@@ -1,3 +1,5 @@
+import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
+import Home from "../pages/Home";
 const Toolbar = () => {
   return (
     <>
@@ -7,37 +9,20 @@ const Toolbar = () => {
           <span className="title">Inicio</span>
         </NavLink>
 
-        <NavLink to="/gastos" className="section" activeclassname="active">
+        <NavLink to="/lists" className="section" activeclassname="active">
           <span className="material-symbols-rounded">list</span>
           <span className="title">Listas</span>
         </NavLink>
-
-        <NavLink to="/add" className="section middle">
-          <span className="material-symbols-rounded">add</span>
-        </NavLink>
-
-        <NavLink to="/report" className="section" activeclassname="active">
+        {/* <NavLink to="/settings" className="section" activeclassname="active">
           <span className="material-symbols-rounded">settings</span>
           <span className="title">Configuración</span>
-        </NavLink>
+        </NavLink> */}
       </div>
       <Routes>
-        <Route
-          path="/"
-          element={<Home gastos={gastos} categorias={categorias} />}
-        />
-        <Route path="/report" element={<Report gastos={gastos} />} />
-        <Route
-          path="/add"
-          element={
-            <Agregar
-              guardarGasto={guardarGasto}
-              gastos={gastos}
-              categorias={categorias}
-            />
-          }
-        />
-        <Route
+        <Route path="/" element={<Home />} />
+        <Route path="/lists" element={<Home />} />
+
+        {/* <Route
           path="/detail/:id"
           element={
             <Detail
@@ -47,8 +32,8 @@ const Toolbar = () => {
               categorias={categorias}
             />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/edit/:id"
           element={
             <Edit
@@ -57,13 +42,13 @@ const Toolbar = () => {
               categorias={categorias}
             />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/gastos"
           element={<Gastos gastos={gastos} categorias={categorias} />}
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<NotFound />} />
+        /> */}
+        {/* <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </>
   );

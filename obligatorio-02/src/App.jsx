@@ -1,8 +1,10 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
 import { baseURL, apiKey } from "./helpers/constants";
 import { useStoreContador } from "./store/useStoreContador";
+import Header from "./components/header/Header";
+import SearchBar from "./components/searchBar/SearchBar";
+import Toolbar from "./components/toolbar/Toolbar";
 
 function App() {
   const { contador, inc } = useStoreContador();
@@ -26,7 +28,7 @@ function App() {
 
             if (
               !acc[key] || // Si no existe aún, agregarlo
-              currentDate < new Date(acc[key].dates.start.dateTime) // Si la nueva fecha es más cercana, reemplazamos
+              currentDate < new Date(acc[key].dates.start.localDate) // Si la nueva fecha es más cercana, reemplazamos
             ) {
               acc[key] = event;
             }
@@ -51,38 +53,11 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <button onClick={inc}>count is {contador}</button>
-      <h1>Events</h1>
-      <div className="event-list">
-        {events.map((event) => (
-          <div className="event-card" key={event.id}>
-            <h2>{event.name}</h2>
-            <p>
-              <strong>Date:</strong>{" "}
-              {new Date(event.dates.start.dateTime).toLocaleString()}
-            </p>
-            <p>
-              <strong>Location:</strong>{" "}
-              {event._embedded?.venues[0]?.name || "Unknown Venue"}
-            </p>
-            <a href={event.url} target="_blank" rel="noopener noreferrer">
-              Buy Tickets
-            </a>
-            <div className="images">
-              {event.images.slice(0, 3).map((img, index) => (
-                <img
-                  key={index}
-                  src={img.url}
-                  alt={event.name}
-                  style={{ width: "100%", marginBottom: "10px" }}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <section className="appContent">
+      <Header />
+      <SearchBar />
+      <Toolbar />
+    </section>
   );
 }
 
