@@ -26,7 +26,7 @@ function App() {
 
             if (
               !acc[key] || // Si no existe aún, agregarlo
-              currentDate < new Date(acc[key].dates.start.dateTime) // Si la nueva fecha es más cercana, reemplazar
+              currentDate < new Date(acc[key].dates.start.dateTime) // Si la nueva fecha es más cercana, reemplazamos
             ) {
               acc[key] = event;
             }
