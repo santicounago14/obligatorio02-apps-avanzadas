@@ -101,3 +101,43 @@ body {
   outline: none;
   border: none;
 }
+
+/* Result */
+
+.titleResult {
+  font-size: 30px;
+}
+
+/* Event */
+
+.eventContainer {
+  width: -webkit-fill-available;
+  background-color: #fff;
+  padding: 18px;
+  border-radius: 35px;
+}
+
+.eventContainer img {
+  width: 100%;
+  border-radius: 22px;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.eventContainer .eventInfo h3 {
+  font-weight: 700;
+}
+
+.eventContainer .eventInfo .actions {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.eventContainer .eventInfo .actions button {
+  width: 100%;
+  padding: 15px 10px;
+  border-radius: 12px;
+  border: none;
+}

@@ -5,6 +5,8 @@ import { useStoreContador } from "./store/useStoreContador";
 import Header from "./components/header/Header";
 import SearchBar from "./components/searchBar/SearchBar";
 import Toolbar from "./components/toolbar/Toolbar";
+import Result from "./components/result/Result";
+import Event from "./components/event/Event";
 
 function App() {
   const { contador, inc } = useStoreContador();
@@ -56,6 +58,8 @@ function App() {
     <section className="appContent">
       <Header />
       <SearchBar />
+      <Result />
+      <Event />
       <Toolbar />
     </section>
   );
