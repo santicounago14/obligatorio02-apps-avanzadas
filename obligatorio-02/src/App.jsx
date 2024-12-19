@@ -1,7 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { baseURL, apiKey } from "./helpers/constants";
-import { useStoreContador } from "./store/useStoreContador";
 import Header from "./components/header/Header";
 import SearchBar from "./components/searchBar/SearchBar";
 import Toolbar from "./components/toolbar/Toolbar";
@@ -9,7 +8,6 @@ import Result from "./components/result/Result";
 import Event from "./components/event/Event";
 
 function App() {
-  const { contador, inc } = useStoreContador();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,6 +55,7 @@ function App() {
   return (
     <section className="appContent">
       <Header />
+      <h1>¡Hola, Santiago! ¿Qué estás buscando?</h1>
       <SearchBar />
       <Result />
       <Event />

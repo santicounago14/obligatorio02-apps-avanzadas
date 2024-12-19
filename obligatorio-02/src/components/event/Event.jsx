@@ -1,20 +1,31 @@
-const Event = () => {
+import React from "react";
+
+function Event({ event, onAddToFavorites, onDiscard }) {
   return (
     <div className="eventContainer">
-      <img
-        src="https://s1.ticketm.net/dam/a/c63/98b72144-ea0b-4727-a4b1-4da7329b0c63_SOURCE"
-        alt=""
-      />
+      <div className="imageWrapper">
+        <img src="https://via.placeholder.com/150" />
+        <div className="eventDate">
+          {/*           {new Date(event.dates.start.localDate).toLocaleDateString()}
+           */}{" "}
+        </div>
+        <div className="eventData">
+          <h4 className="eventCategory">
+            {/* {event.classifications[0]?.segment.name || "Categoría desconocida"} */}
+          </h4>
+          {/*  <h3 className="eventTitle">{event.name}</h3> */}
+        </div>
+      </div>
       <div className="eventInfo">
-        <h3>Coachella Weekend 1 3 Day Pass</h3>
-        <p>Descripción del evento</p>
         <div className="actions">
-          <button>No me interesa</button>
-          <button>Me interesa</button>
+          {/* Botón para descartar el evento */}
+          <button onClick={() => onDiscard()}>No me interesa</button>
+          {/* Botón para agregar el evento a favoritos */}
+          <button onClick={() => onAddToFavorites(event)}>Me interesa</button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Event;

@@ -1,0 +1,42 @@
+/* Onboarding.css */
+
+/* Estilo para los chips */
+.chip {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.chip.selected {
+  background-color: #3498db;
+  color: white;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el date picker */
+.date-picker {
+  margin-bottom: 20px;
+}
+
+/* Estilo para el botón de guardar */
+.save-btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #2980b9;
+}
