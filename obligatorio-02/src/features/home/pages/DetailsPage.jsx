@@ -19,6 +19,20 @@ async function fetchEventById(id) {
   return data;
 }
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Mes
+  const year = String(date.getFullYear()).slice(-2); // Año en formato "aa"
+
+  // le meto un formato a la hora en hh:mm
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const time = `${hours}:${minutes}`;
+
+  return `${day}/${month}/${year} ${time}`; // Fecha y hora en formato dd/mm/aa hh:mm
+}
+
 function DetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -112,7 +126,7 @@ function DetailsPage() {
           {dates && dates.start && (
             <div className="date">
               <span className="material-symbols-rounded">calendar_today</span>
-              {dates.start.localDate} {dates.start.localTime}
+              {formatDate(dates.start.localDate)}{" "}
             </div>
           )}
           <span>|</span>
@@ -150,7 +164,7 @@ function DetailsPage() {
                     </span>
                     Desde
                   </div>
-                  {sales.public.startDateTime}
+                  {formatDate(sales.public.startDateTime)}
                 </div>
                 <div className="infoDates">
                   <div className="title">
@@ -159,7 +173,7 @@ function DetailsPage() {
                     </span>
                     Hasta
                   </div>
-                  {sales.public.endDateTime}
+                  {formatDate(sales.public.endDateTime)}
                 </div>
               </section>
             )}
@@ -207,7 +221,7 @@ function DetailsPage() {
                           </span>
                           Inicio
                         </div>
-                        {p.startDateTime}
+                        {formatDate(p.startDateTime)}
                       </div>
                       <div className="infoDates">
                         <div className="title">
@@ -216,7 +230,7 @@ function DetailsPage() {
                           </span>
                           Fin
                         </div>
-                        {p.endDateTime}
+                        {formatDate(p.endDateTime)}
                       </div>
                     </section>
                   </div>
