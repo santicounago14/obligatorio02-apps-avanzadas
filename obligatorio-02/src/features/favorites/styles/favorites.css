@@ -1,0 +1,99 @@
+.contenedorListas {
+  list-style: none;
+  padding: 0;
+}
+
+.contenedorListas li {
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+}
+
+.contenedorListas li .info h3 {
+  color: #2e3a59;
+  font-weight: 600;
+  margin-bottom: 0px;
+  font-size: 21px;
+}
+
+.contenedorListas li .info p {
+  margin: 0px;
+  margin-top: 5px;
+  font-size: 16px;
+  color: #9c9ca1;
+}
+
+/* CSS de las listas */
+
+.deleteList {
+  width: -webkit-fill-available;
+  background-color: #ff4c4c;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 18px 20px;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+.contenedor {
+  list-style: none;
+  padding: 0;
+}
+
+.contenedor .item {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contenedor .item span {
+  color: #313947;
+}
+
+.contenedor .item .icono {
+  color: #313947;
+  font-size: 24px;
+  color: #6b7c93;
+}
+
+.changeName {
+  display: flex;
+  gap: 12px;
+}
+
+.changeName input {
+  width: 70%;
+  padding: 18px 20px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  background-color: #f4f4f4;
+  font-size: 14px;
+}
+
+.changeName button {
+  width: 30%;
+  padding: 18px 20px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  background-color: var(--primary);
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.contenedor h3 {
+  font-weight: 600;
+  margin-top: 25px;
+  color: #2e3a59;
+  font-size: 19px;
+  margin-bottom: 13px;
+}

@@ -59,6 +59,7 @@
   text-decoration: none;
   color: #2e3a59;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .cardEvent .location {
