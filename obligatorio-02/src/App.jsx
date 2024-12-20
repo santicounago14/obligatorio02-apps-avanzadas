@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import OnboardingPage from "features/onboarding/pages/OnboardingPage";
 import DetailsPage from "features/home/pages/DetailsPage";
 import HomePage from "features/home/pages/HomePage";
@@ -11,7 +11,6 @@ import FavoritesDetailsPage from "features/favorites/pages/FavoritesDetailsPage"
 import ToolBarWrapper from "shared/components/ToolBarWrapper";
 
 function App() {
-
   return (
     <div className="App">
       <ToastContainer />

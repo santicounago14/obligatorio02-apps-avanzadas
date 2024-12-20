@@ -76,6 +76,10 @@ const useEventsStore = create(
         set({ favorites: [...favorites.filter((id) => id !== itemId)] });
         set({ favoriteLists: { ...favoriteLists } });
       },
+      setFilterKeyword: (keyword) =>
+        set((state) => ({
+          filters: { ...state.filters, keyword },
+        })),
 
       deleteFavoriteList: (listId) => {
         const favoriteLists = get().favoriteLists;

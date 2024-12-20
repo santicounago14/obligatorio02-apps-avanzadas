@@ -13,6 +13,7 @@
   position: relative;
   margin-top: 280px;
   z-index: 1;
+  padding-bottom: 70px;
 }
 
 .details-container h1 {
@@ -160,6 +161,7 @@
   display: flex;
   width: -webkit-fill-available;
   gap: 10px;
+  margin-top: 30px;
 }
 
 .actions button {

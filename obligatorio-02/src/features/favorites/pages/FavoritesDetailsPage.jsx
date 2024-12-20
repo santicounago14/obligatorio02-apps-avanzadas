@@ -30,12 +30,8 @@ function FavoritesDetailPage() {
   };
 
   const handleDeleteList = () => {
-    if (
-      window.confirm(`¿Seguro que desea eliminar la lista "${list.title}"?`)
-    ) {
-      deleteFavoriteList(listId);
-      navigate("/favorites"); // Volver a la lista de listas
-    }
+    deleteFavoriteList(listId);
+    navigate("/favorites"); // Volver a la lista de listas
   };
 
   return (
@@ -61,7 +57,13 @@ function FavoritesDetailPage() {
           <h3>Elementos de la lista</h3>
           {list.items.map((item) => (
             <li key={item.id} className="item">
-              <span onClick={() => navigate(`/detail/${item.id}`)}>
+              <span
+                onClick={() =>
+                  navigate(`/detail/${item.id}`, {
+                    state: { fromFavorites: true },
+                  })
+                }
+              >
                 {item.name}
               </span>
               <span

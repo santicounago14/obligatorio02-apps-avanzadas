@@ -90,6 +90,7 @@ function DetailsPage() {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    navigate("/home");
   };
 
   return (

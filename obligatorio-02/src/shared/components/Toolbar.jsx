@@ -4,8 +4,8 @@ const Toolbar = () => {
     <>
       <div className="toolbar">
         <NavLink to="/" className="section" activeclassname="active">
-          <span className="material-symbols-rounded">add</span>
-          <span className="title">Onboarding</span>
+          <span className="material-symbols-rounded">filter_alt</span>
+          <span className="title">Filtros</span>
         </NavLink>
         <NavLink to="/home" className="section" activeclassname="active">
           <span className="material-symbols-rounded">home</span>
