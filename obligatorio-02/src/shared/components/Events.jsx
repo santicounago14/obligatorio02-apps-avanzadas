@@ -1,8 +1,8 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import useEventStore from "../../store/useEventStore";
-import Event from "../event/Event";
-import { baseURL, apiKey } from "../../helpers/constants";
+import useEventStore from "../store/useEventsStore";
+import Event from "./Event";
+import { baseURL, apiKey } from "../utils/constants";
 
 function Events() {
   const { events, setEvents, currentEventIndex, addToFavorites, discardEvent } =

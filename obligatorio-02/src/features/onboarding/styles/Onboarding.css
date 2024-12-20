@@ -1,6 +1,10 @@
-/* Onboarding.css */
+.onboarding {
+  margin-top: 150px;
+}
 
-/* Estilo para los chips */
+h3 {
+  font-weight: 500;
+}
 .chip {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -22,12 +26,10 @@
   margin-bottom: 20px;
 }
 
-/* Estilo para el date picker */
 .date-picker {
   margin-bottom: 20px;
 }
 
-/* Estilo para el botón de guardar */
 .save-btn {
   padding: 10px 20px;
   background-color: #3498db;
