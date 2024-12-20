@@ -1,25 +1,38 @@
-import React from 'react';
-import useEventsStore from 'shared/store/useEventsStore';
-import { toast } from 'react-toastify';
+import React from "react";
+import useEventsStore from "shared/store/useEventsStore";
+import { toast } from "react-toastify";
+import Back from "../../../shared/components/back/Back";
+import "../styles/Settings.css";
 
 function SettingsPage() {
   const { resetLists, resetDiscarded } = useEventsStore();
 
   const handleResetLists = () => {
     resetLists();
-    toast.success('Todas las listas de favoritos han sido restablecidas.');
+    toast.success("Todas las listas de favoritos han sido restablecidas.");
   };
 
   const handleResetDiscarded = () => {
     resetDiscarded();
-    toast.success('Todos los elementos descartados han sido restablecidos.');
+    toast.success("Todos los elementos descartados han sido restablecidos.");
   };
 
   return (
     <div>
-      <h1>Configuración</h1>
-      <button onClick={handleResetLists}>Restablecer Listas de Favoritos</button>
-      <button onClick={handleResetDiscarded}>Restablecer Elementos Descartados</button>
+      <Back
+        title="Configuración"
+        subtitle="Administra los eventos."
+        backLink="/home"
+      />
+      <section className="botones">
+        {" "}
+        <button onClick={handleResetLists}>
+          Restablecer listas de favoritos
+        </button>
+        <button onClick={handleResetDiscarded}>
+          Restablecer elementos descartados
+        </button>
+      </section>
     </div>
   );
 }
