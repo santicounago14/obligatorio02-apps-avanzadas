@@ -7,12 +7,12 @@ import "../styles/Settings.css";
 function SettingsPage() {
   const { resetLists, resetDiscarded } = useEventsStore();
 
-  const handleResetLists = () => {
+  const manageResetLists = () => {
     resetLists();
     toast.success("Todas las listas de favoritos han sido restablecidas.");
   };
 
-  const handleResetDiscarded = () => {
+  const manageResetDiscarded = () => {
     resetDiscarded();
     toast.success("Todos los elementos descartados han sido restablecidos.");
   };
@@ -26,10 +26,10 @@ function SettingsPage() {
       />
       <section className="botones">
         {" "}
-        <button onClick={handleResetLists}>
+        <button onClick={manageResetLists}>
           Restablecer listas de favoritos
         </button>
-        <button onClick={handleResetDiscarded}>
+        <button onClick={manageResetDiscarded}>
           Restablecer elementos descartados
         </button>
       </section>

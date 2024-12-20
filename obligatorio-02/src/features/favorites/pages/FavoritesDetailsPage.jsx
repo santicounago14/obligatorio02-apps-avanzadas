@@ -25,13 +25,13 @@ function FavoritesDetailPage() {
     return <ErrorState error="¡La lista no existe!" />;
   }
 
-  const handleSaveTitle = () => {
+  const manageSaveTitle = () => {
     updateFavoriteListTitle(listId, newTitle);
   };
 
-  const handleDeleteList = () => {
+  const manageDeleteList = () => {
     deleteFavoriteList(listId);
-    navigate("/favorites"); // Volver a la lista de listas
+    navigate("/favorites"); // se borra la lista y lo mando para favoritos devuelta
   };
 
   return (
@@ -43,7 +43,7 @@ function FavoritesDetailPage() {
       />
       <div className="changeName">
         <input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-        <button onClick={handleSaveTitle}>Actualizar</button>
+        <button onClick={manageSaveTitle}>Actualizar</button>
       </div>
       <p>{list.description}</p>
 
@@ -77,7 +77,7 @@ function FavoritesDetailPage() {
         </ul>
       )}
 
-      <button onClick={handleDeleteList} className="deleteList">
+      <button onClick={manageDeleteList} className="deleteList">
         Eliminar Lista
       </button>
     </div>

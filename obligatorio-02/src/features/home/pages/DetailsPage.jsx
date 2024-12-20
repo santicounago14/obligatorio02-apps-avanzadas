@@ -93,16 +93,16 @@ function DetailsPage() {
   const venue = _embedded?.venues?.[0];
   const segmentName = classifications?.[0]?.segment?.name;
 
-  const handleDiscard = () => {
+  const manageDiscard = () => {
     discardItem(event.id);
     navigate("/home");
   };
 
-  const handleOpenModal = () => {
+  const manageOpenModal = () => {
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const manageCloseModal = () => {
     setModalOpen(false);
     navigate("/home");
   };
@@ -256,17 +256,17 @@ function DetailsPage() {
         )}
 
         <div className="actions">
-          <button className="discard" onClick={handleDiscard}>
+          <button className="discard" onClick={manageDiscard}>
             Descartar :(
           </button>
-          <button className="add" onClick={handleOpenModal}>
+          <button className="add" onClick={manageOpenModal}>
             Guardar :)
           </button>
         </div>
       </div>
       <FavoriteListModal
         isOpen={modalOpen}
-        onClose={handleCloseModal}
+        onClose={manageCloseModal}
         favoriteLists={favoriteLists}
         createFavoriteList={createFavoriteList}
         addItemToList={addItemToList}

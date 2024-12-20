@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 
+// la info que necesitamos
 function EventCard({ event }) {
   const { name, dates, images, _embedded } = event;
   const venue = _embedded?.venues?.[0];

@@ -22,6 +22,7 @@ function App() {
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/favorites/:listId" element={<FavoritesDetailsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>
     </div>

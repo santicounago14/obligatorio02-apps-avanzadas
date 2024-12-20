@@ -10,6 +10,7 @@ import EmptyState from "shared/components/EmptyState";
 
 import "../styles/Home.css";
 
+// la funcion en la que obtenemos los eventos filtrados
 async function fetchEvents({ eventTypes, startDate, keyword }) {
   const classificationName = eventTypes.join(",");
   const countryCode = "US";
@@ -29,7 +30,6 @@ async function fetchEvents({ eventTypes, startDate, keyword }) {
   }
 
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Error fetching events");
   const data = await res.json();
   const events = data._embedded?.events || [];
 
@@ -37,6 +37,7 @@ async function fetchEvents({ eventTypes, startDate, keyword }) {
 }
 
 function HomePage() {
+  // funciones del store
   const {
     events,
     setEvents,
@@ -48,14 +49,14 @@ function HomePage() {
     filters,
     discarded,
     favorites,
-    setFilterKeyword, // Nueva función en el store
+    setFilterKeyword,
   } = useEventsStore();
 
   const { eventTypes, startDate, keyword } = filters;
-
+  // states
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(keyword || ""); // Estado para el input de búsqueda
+  const [searchTerm, setSearchTerm] = useState(keyword || "");
 
   const { data, error, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["events", eventTypes, startDate, keyword],
@@ -70,11 +71,11 @@ function HomePage() {
     }
   }, [isSuccess, data, setEvents]);
 
-  // Actualiza el filtro 'keyword' en el store cuando el input cambia
-  const handleSearchChange = (e) => {
+  // actualizamos el filtro keyword en el store cuando el input cambia
+  const manageSearchChange = (e) => {
     const newSearchTerm = e.target.value;
     setSearchTerm(newSearchTerm);
-    setFilterKeyword(newSearchTerm); // Actualiza el filtro en el store
+    setFilterKeyword(newSearchTerm); // aca actualizamos los filtros
   };
 
   const filteredEvents = useMemo(() => {
@@ -88,20 +89,23 @@ function HomePage() {
   const currentEvent = filteredEvents[currentEventIndex];
   const totalEvents = filteredEvents.length;
 
+  // aca manejamos el loader y el error
   if (isLoading) return <Loader />;
   if (isError) return <ErrorState error={error.message} />;
 
-  const handleDiscard = () => {
+  const manageDiscard = () => {
     discardEvent();
   };
 
-  const handleFavoriteClick = () => {
+  // abrir modal de favoritos
+  const manageFavoriteClick = () => {
     if (!currentEvent) return;
     setSelectedEvent(currentEvent);
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  // cerrar modal
+  const manageCloseModal = () => {
     setModalOpen(false);
     setSelectedEvent(null);
   };
@@ -117,8 +121,8 @@ function HomePage() {
         type="text"
         className="inputBusqueda"
         placeholder="Busca por artista o estadios"
-        value={searchTerm} // Vincula el estado del input con el valor
-        onChange={handleSearchChange} // Actualiza el estado cuando el valor cambia
+        value={searchTerm}
+        onChange={manageSearchChange}
       />
       <div className="filtrosAplicados">
         <b>Filtrando por: </b>
@@ -129,16 +133,16 @@ function HomePage() {
         <div>
           <EventCard event={currentEvent} />
           <div className="actionsEvent">
-            <button className="discard" onClick={handleDiscard}>
+            <button className="discard" onClick={manageDiscard}>
               Descartar :(
             </button>
-            <button className="add" onClick={handleFavoriteClick}>
+            <button className="add" onClick={manageFavoriteClick}>
               Guardar :)
             </button>
           </div>
           <FavoriteListModal
             isOpen={modalOpen}
-            onClose={handleCloseModal}
+            onClose={manageCloseModal}
             favoriteLists={favoriteLists}
             createFavoriteList={createFavoriteList}
             addItemToList={addItemToList}

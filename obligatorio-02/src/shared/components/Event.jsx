@@ -1,5 +1,6 @@
 import React from "react";
 
+// componente para mostrar los eventos
 function Event({ event, onAddToFavorites, onDiscard }) {
   return (
     <div className="eventContainer">

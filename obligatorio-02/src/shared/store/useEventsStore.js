@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+// le pongo el persist para que quede en el local storage
 const useEventsStore = create(
   persist(
     (set, get) => ({
@@ -44,6 +45,7 @@ const useEventsStore = create(
 
       resetDiscarded: () => set({ discarded: [] }),
 
+      // con esto creamos la lista de favoritos
       createFavoriteList: (title, description = "") => {
         const newId = Date.now().toString();
         const favoriteLists = get().favoriteLists;
@@ -67,6 +69,7 @@ const useEventsStore = create(
         set({ favoriteLists: { ...favoriteLists } });
       },
 
+      // sacar elemento de la lista
       removeItemFromList: (listId, itemId) => {
         const favoriteLists = get().favoriteLists;
         favoriteLists[listId].items = favoriteLists[listId].items.filter(
@@ -76,6 +79,7 @@ const useEventsStore = create(
         set({ favorites: [...favorites.filter((id) => id !== itemId)] });
         set({ favoriteLists: { ...favoriteLists } });
       },
+      // para el buscador
       setFilterKeyword: (keyword) =>
         set((state) => ({
           filters: { ...state.filters, keyword },
@@ -84,20 +88,17 @@ const useEventsStore = create(
       deleteFavoriteList: (listId) => {
         const favoriteLists = get().favoriteLists;
 
-        // Verifica que la lista existe antes de proceder
         const listToDelete = favoriteLists[listId];
         if (!listToDelete) {
           console.error(`La lista con ID ${listId} no existe.`);
           return;
         }
 
-        // Obtiene los IDs de los elementos a eliminar
         const itemsToDelete = listToDelete.items.map((i) => i.id);
 
-        // Elimina la lista
+        // aca elimino la lista
         delete favoriteLists[listId];
 
-        // Actualiza el estado con los favoritos filtrados
         const favorites = get().favorites;
         set({
           favorites: [...favorites.filter((id) => !itemsToDelete.includes(id))],
@@ -105,6 +106,7 @@ const useEventsStore = create(
         });
       },
 
+      // para actualizar el nOmbre de la listaa
       updateFavoriteListTitle: (listId, title) => {
         const favoriteLists = get().favoriteLists;
         if (favoriteLists[listId]) {
@@ -113,6 +115,7 @@ const useEventsStore = create(
         }
       },
 
+      // para resetear las listas
       resetLists: () =>
         set({
           discarded: [],

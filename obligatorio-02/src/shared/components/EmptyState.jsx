@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/EmptyState.css"; // Asegúrate de tener un archivo de estilo
+import "./styles/EmptyState.css";
 
 function EmptyState({ title, description }) {
   return (

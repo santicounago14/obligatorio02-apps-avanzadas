@@ -9,13 +9,14 @@ function FavoriteListModal({
   addItemToList,
   event,
 }) {
+  // states
   const [selectedListId, setSelectedListId] = useState("");
   const [newListName, setNewListName] = useState("");
   const [creatingNew, setCreatingNew] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSelectChange = (e) => {
+  const manageSelectChange = (e) => {
     const value = e.target.value;
     if (value === "new") {
       setCreatingNew(true);
@@ -26,7 +27,7 @@ function FavoriteListModal({
     }
   };
 
-  const handleCreateAndAdd = () => {
+  const manageCreateAndAdd = () => {
     let listId = selectedListId;
     if (creatingNew) {
       listId = createFavoriteList(newListName || "Nueva Lista", "");
@@ -35,7 +36,7 @@ function FavoriteListModal({
     onClose();
   };
 
-  const listEntries = Object.entries(favoriteLists); // [ [id, {title, ...}], ...]
+  const listEntries = Object.entries(favoriteLists);
 
   return (
     <div className="background">
@@ -44,7 +45,7 @@ function FavoriteListModal({
         <p>Selecciona una lista o crea una.</p>
 
         <select
-          onChange={handleSelectChange}
+          onChange={manageSelectChange}
           value={creatingNew ? "new" : selectedListId}
         >
           <option value="">Seleccionar lista...</option>
@@ -73,7 +74,7 @@ function FavoriteListModal({
           </button>
           <button
             className="confirm"
-            onClick={handleCreateAndAdd}
+            onClick={manageCreateAndAdd}
             disabled={!creatingNew && !selectedListId && !creatingNew}
           >
             Confirmar

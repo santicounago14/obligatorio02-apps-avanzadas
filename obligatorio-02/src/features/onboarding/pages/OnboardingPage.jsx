@@ -15,17 +15,17 @@ function OnboardingPage() {
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
 
-  const handleEventTypeToggle = (type) => {
+  const manageEventTypeToggle = (type) => {
     setSelectedEventTypes((prev) =>
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
-  const handleDateChange = (e) => {
+  const manageDateChange = (e) => {
     setStartDate(e.target.value);
   };
 
-  const handleSave = () => {
+  const manageSave = () => {
     const filters = { eventTypes: selectedEventTypes, startDate, keyword };
     setFilters(filters);
 
@@ -42,7 +42,7 @@ function OnboardingPage() {
   return (
     <div className="onboarding">
       <h2>
-        ¡Hola Darío, <br></br> te damos la bienvenida!
+        ¡Hola Santiago, <br></br> te damos la bienvenida!
       </h2>
       <h3>¿Qué estás buscando hoy?</h3>
 
@@ -57,13 +57,13 @@ function OnboardingPage() {
       <ChipsContainer
         eventTypes={eventTypes}
         selectedEventTypes={selectedEventTypes}
-        onToggle={handleEventTypeToggle}
+        onToggle={manageEventTypeToggle}
       />
 
       <h4>Fecha mayor a</h4>
-      <DatePicker startDate={startDate} onDateChange={handleDateChange} />
+      <DatePicker startDate={startDate} onDateChange={manageDateChange} />
 
-      <button className="save-btn" onClick={handleSave}>
+      <button className="save-btn" onClick={manageSave}>
         Buscar
       </button>
     </div>

@@ -16,7 +16,7 @@ function Events() {
     queryKey: ["events", filters],
     queryFn: async () => {
       if (!filters.eventTypes.length) {
-        throw new Error("No filters provided");
+        console.log("Sin filtros");
       }
       const response = await fetch(
         `${baseURL}/events.json?classificationName=${filters.eventTypes.join(
@@ -24,10 +24,11 @@ function Events() {
         )}&countryCode=US&apikey=${apiKey}&size=50`
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch events");
+        console.log("error");
       }
       return response.json();
     },
+    // si esta ok seteamos los eventos en el storee
     onSuccess: (data) => {
       if (data?._embedded?.events) {
         setEvents(data._embedded.events);

@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./Back.module.css";
 
+// para ir para atras + titulo y subtitulo para que quede lidno
 const Back = ({ title, subtitle, backLink }) => {
   return (
     <section className={styles.headerPage}>

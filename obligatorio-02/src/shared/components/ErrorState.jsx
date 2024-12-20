@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/ErrorState.css"; // Asegúrate de tener un archivo de estilo
+import "./styles/ErrorState.css";
 
 function ErrorState({ title, description }) {
   return (

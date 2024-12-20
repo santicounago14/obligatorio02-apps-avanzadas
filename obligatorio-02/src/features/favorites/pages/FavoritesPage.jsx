@@ -12,6 +12,7 @@ function FavoritesPage() {
 
   const entries = Object.entries(favoriteLists);
 
+  // si no hay listas creadas mostramos el empty
   if (entries.length === 0) {
     return (
       <EmptyState
@@ -22,7 +23,7 @@ function FavoritesPage() {
   }
 
   return (
-    <div style={{ padding: "1rem" }}>
+    <div>
       <Back
         title="Mis listas"
         subtitle="Visualizá tus listas"
