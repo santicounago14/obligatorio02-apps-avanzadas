@@ -8,6 +8,7 @@ const useEventsStore = create(
       filters: {
         eventTypes: [],
         startDate: "",
+        keyword: "",
       },
       discarded: [],
       favorites: [],

@@ -12,6 +12,7 @@ function OnboardingPage() {
   const { setFilters } = useEventsStore();
   const [selectedEventTypes, setSelectedEventTypes] = useState([]);
   const [startDate, setStartDate] = useState("");
+  const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
 
   const handleEventTypeToggle = (type) => {
@@ -25,11 +26,11 @@ function OnboardingPage() {
   };
 
   const handleSave = () => {
-    const filters = { eventTypes: selectedEventTypes, startDate };
+    const filters = { eventTypes: selectedEventTypes, startDate, keyword };
     setFilters(filters);
 
-    if (!selectedEventTypes.length)
-      toast.error("Debe seleccionar al menos un tipo de evento");
+    if (!selectedEventTypes.length && !keyword)
+      toast.error("Debe seleccionar al menos un tipo de evento o una palabra clave");
     else if (!startDate) toast.error("Debe seleccionar una fecha de inicio");
     else {
       navigate("/home", { state: { filters } });
@@ -43,7 +44,7 @@ function OnboardingPage() {
       </h2>
       <h3>¿Qué estás buscando hoy?</h3>
 
-      <input type="text" placeholder="Busca por artista o estadios" />
+      <input type="text" placeholder="Busca por artista o estadios" onChange={(e) => setKeyword(e.target.value)} />
 
       <h4>Tipo de evento</h4>
 

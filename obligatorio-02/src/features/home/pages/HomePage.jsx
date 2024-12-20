@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useEventsStore from "shared/store/useEventsStore";
 import ErrorState from "shared/components/ErrorState";
@@ -8,7 +8,7 @@ import { baseURL, apiKey } from "shared/utils/constants";
 import FavoriteListModal from "../components/FavoriteListModal";
 import "../styles/Home.css";
 
-async function fetchEvents({ eventTypes, startDate, discarded, favorites }) {
+async function fetchEvents({ eventTypes, startDate, keyword }) {
   const classificationName = eventTypes.join(",");
   const countryCode = "US";
 
@@ -22,18 +22,16 @@ async function fetchEvents({ eventTypes, startDate, discarded, favorites }) {
     url += `&startDateTime=${startDate}T00:00:00Z`;
   }
 
+  if (keyword) {
+    url += `&keyword=${encodeURIComponent(keyword)}`;
+  }
+
   const res = await fetch(url);
   if (!res.ok) throw new Error("Error fetching events");
   const data = await res.json();
   const events = data._embedded?.events || [];
 
-  const discardedIds = new Set(discarded);
-  const favoriteIds = new Set(favorites);
-
-  const result = events
-    .filter((event) => !discardedIds.has(event.id))
-    .filter((event) => !favoriteIds.has(event.id));
-  return result;
+  return events;
 }
 
 function HomePage() {
@@ -49,14 +47,14 @@ function HomePage() {
     discarded,
     favorites,
   } = useEventsStore();
-  const { eventTypes, startDate } = filters;
+  const { eventTypes, startDate, keyword } = filters;
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const { data, error, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ["events", eventTypes, startDate, discarded, favorites],
-    queryFn: () => fetchEvents({ eventTypes, startDate, discarded, favorites }),
+    queryKey: ["events", eventTypes, startDate, keyword],
+    queryFn: () => fetchEvents({ eventTypes, startDate, keyword }),
     staleTime: 0,
     refetchOnMount: "always",
   });
@@ -67,11 +65,19 @@ function HomePage() {
     }
   }, [isSuccess, data, setEvents]);
 
+  const filteredEvents = useMemo(() => {
+    const discardedIds = new Set(discarded);
+    const favoriteIds = new Set(favorites);
+    return events.filter(
+      (event) => !discardedIds.has(event.id) && !favoriteIds.has(event.id)
+    );
+  }, [events, discarded, favorites]);
+
+  const currentEvent = filteredEvents[currentEventIndex];
+  const totalEvents = filteredEvents.length;
+
   if (isLoading) return <FadeLoader />;
   if (isError) return <ErrorState error={error.message} />;
-
-  const currentEvent = events[currentEventIndex];
-  const totalEvents = events.length;
 
   const handleDiscard = () => {
     discardEvent();
