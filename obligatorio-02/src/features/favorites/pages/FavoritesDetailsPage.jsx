@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useEventsStore from "shared/store/useEventsStore";
 import Back from "../../../shared/components/back/Back";
+import ErrorState from "shared/components/ErrorState";
+import EmptyState from "shared/components/EmptyState";
 
 import "../styles/favorites.css";
 
@@ -20,7 +22,7 @@ function FavoritesDetailPage() {
   const [newTitle, setNewTitle] = useState(list?.title || "");
 
   if (!list) {
-    return <div>La lista no existe.</div>;
+    return <ErrorState error="¡La lista no existe!" />;
   }
 
   const handleSaveTitle = () => {
@@ -50,7 +52,10 @@ function FavoritesDetailPage() {
       <p>{list.description}</p>
 
       {list.items.length === 0 ? (
-        <div>No hay eventos en esta lista.</div>
+        <EmptyState
+          title="¡No hay eventos por acá!"
+          description="Parece que no hay eventos en esta lista. Intenta agregando eventos."
+        />
       ) : (
         <ul className="contenedor">
           <h3>Elementos de la lista</h3>

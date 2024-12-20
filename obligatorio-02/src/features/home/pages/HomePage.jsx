@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useEventsStore from "shared/store/useEventsStore";
-import ErrorMessage from "shared/components/ErrorMessage";
+import ErrorState from "shared/components/ErrorState";
 import FadeLoader from "react-spinners/FadeLoader";
 import EventCard from "../components/EventCard";
 import { baseURL, apiKey } from "shared/utils/constants";
@@ -68,7 +68,7 @@ function HomePage() {
   }, [isSuccess, data, setEvents]);
 
   if (isLoading) return <FadeLoader />;
-  if (isError) return <ErrorMessage error={error.message} />;
+  if (isError) return <ErrorState error={error.message} />;
 
   const currentEvent = events[currentEventIndex];
   const totalEvents = events.length;

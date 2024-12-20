@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { baseURL, apiKey } from "shared/utils/constants";
 import useEventsStore from "shared/store/useEventsStore";
-import ErrorMessage from "shared/components/ErrorMessage";
+import ErrorState from "shared/components/ErrorState";
+import EmptyState from "shared/components/EmptyState";
 import FadeLoader from "react-spinners/FadeLoader";
 import FavoriteListModal from "../components/FavoriteListModal";
 import Back from "../../../shared/components/back/Back";
@@ -52,8 +53,14 @@ function DetailsPage() {
   }, [isSuccess, event, discarded, navigate]);
 
   if (isLoading) return <FadeLoader />;
-  if (isError) return <ErrorMessage error={error.message} />;
-  if (!event) return <div>No hay datos del evento.</div>;
+  if (isError) return <ErrorState error={error.message} />;
+  if (!event)
+    return (
+      <EmptyState
+        title="Uppps"
+        description="No pudimos encontrar los detalles del evento."
+      />
+    );
 
   const {
     name,

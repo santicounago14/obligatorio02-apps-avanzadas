@@ -1,6 +1,9 @@
 .contenedorListas {
   list-style: none;
   padding: 0;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .contenedorListas li {

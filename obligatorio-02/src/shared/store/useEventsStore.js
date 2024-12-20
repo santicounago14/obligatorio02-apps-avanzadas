@@ -56,7 +56,9 @@ const useEventsStore = create(
       addItemToList: (listId, item) => {
         const favoriteLists = get().favoriteLists;
         for (let key in favoriteLists) {
-          favoriteLists[key].items = favoriteLists[key].items.filter((i) => i.id !== item.id);
+          favoriteLists[key].items = favoriteLists[key].items.filter(
+            (i) => i.id !== item.id
+          );
         }
         const favorites = get().favorites;
         favoriteLists[listId].items.push(item);
@@ -76,11 +78,26 @@ const useEventsStore = create(
 
       deleteFavoriteList: (listId) => {
         const favoriteLists = get().favoriteLists;
+
+        // Verifica que la lista existe antes de proceder
+        const listToDelete = favoriteLists[listId];
+        if (!listToDelete) {
+          console.error(`La lista con ID ${listId} no existe.`);
+          return;
+        }
+
+        // Obtiene los IDs de los elementos a eliminar
+        const itemsToDelete = listToDelete.items.map((i) => i.id);
+
+        // Elimina la lista
         delete favoriteLists[listId];
+
+        // Actualiza el estado con los favoritos filtrados
         const favorites = get().favorites;
-        const itemsToDelete = favoriteLists[listId].items.map((i) => i.id);
-        set({ favorites: [...favorites.filter((id) => !itemsToDelete.includes(id))] });
-        set({ favoriteLists: { ...favoriteLists } });
+        set({
+          favorites: [...favorites.filter((id) => !itemsToDelete.includes(id))],
+          favoriteLists: { ...favoriteLists },
+        });
       },
 
       updateFavoriteListTitle: (listId, title) => {

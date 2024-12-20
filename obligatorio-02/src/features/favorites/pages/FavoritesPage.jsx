@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useEventsStore from "shared/store/useEventsStore";
 import Back from "../../../shared/components/back/Back";
+import ErrorState from "shared/components/ErrorState";
+import EmptyState from "shared/components/EmptyState";
 import "../styles/favorites.css";
 
 function FavoritesPage() {
@@ -11,7 +13,12 @@ function FavoritesPage() {
   const entries = Object.entries(favoriteLists);
 
   if (entries.length === 0) {
-    return <div>No hay listas de favoritos creadas.</div>;
+    return (
+      <EmptyState
+        title="¡No hay listas creadas!"
+        description="Parece que no haz creado ninguna lista aún."
+      />
+    );
   }
 
   return (
