@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "../styles/Modal.css";
 
-function FavoriteListModal({ isOpen, onClose, favoriteLists, createFavoriteList, addItemToList, event }) {
-  const [selectedListId, setSelectedListId] = useState('');
-  const [newListName, setNewListName] = useState('');
+function FavoriteListModal({
+  isOpen,
+  onClose,
+  favoriteLists,
+  createFavoriteList,
+  addItemToList,
+  event,
+}) {
+  const [selectedListId, setSelectedListId] = useState("");
+  const [newListName, setNewListName] = useState("");
   const [creatingNew, setCreatingNew] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSelectChange = (e) => {
     const value = e.target.value;
-    if (value === 'new') {
+    if (value === "new") {
       setCreatingNew(true);
-      setSelectedListId('');
+      setSelectedListId("");
     } else {
       setCreatingNew(false);
       setSelectedListId(value);
@@ -21,7 +29,7 @@ function FavoriteListModal({ isOpen, onClose, favoriteLists, createFavoriteList,
   const handleCreateAndAdd = () => {
     let listId = selectedListId;
     if (creatingNew) {
-      listId = createFavoriteList(newListName || 'Nueva Lista', '');
+      listId = createFavoriteList(newListName || "Nueva Lista", "");
     }
     addItemToList(listId, { id: event.id, name: event.name });
     onClose();
@@ -30,24 +38,26 @@ function FavoriteListModal({ isOpen, onClose, favoriteLists, createFavoriteList,
   const listEntries = Object.entries(favoriteLists); // [ [id, {title, ...}], ...]
 
   return (
-    <div style={{
-      position: 'fixed', top:0, left:0, width:'100%', height:'100%',
-      background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center'
-    }}>
-      <div style={{background:'#fff', padding:'2rem', borderRadius:'8px', width:'300px'}}>
+    <div className="background">
+      <div className="modal">
         <h2>Agregar a Favoritos</h2>
-        <p>Selecciona una lista existente o crea una nueva.</p>
+        <p>Selecciona una lista o crea una.</p>
 
-        <select onChange={handleSelectChange} value={creatingNew ? 'new' : selectedListId}>
+        <select
+          onChange={handleSelectChange}
+          value={creatingNew ? "new" : selectedListId}
+        >
           <option value="">Seleccionar lista...</option>
           {listEntries.map(([id, list]) => (
-            <option key={id} value={id}>{list.title}</option>
+            <option key={id} value={id}>
+              {list.title}
+            </option>
           ))}
           <option value="new">Crear nueva lista</option>
         </select>
 
         {creatingNew && (
-          <div style={{marginTop:'1rem'}}>
+          <div style={{ marginTop: "1rem" }}>
             <input
               type="text"
               placeholder="Nombre de la nueva lista"
@@ -57,11 +67,17 @@ function FavoriteListModal({ isOpen, onClose, favoriteLists, createFavoriteList,
           </div>
         )}
 
-        <div style={{marginTop:'1rem'}}>
-          <button onClick={handleCreateAndAdd} disabled={!creatingNew && !selectedListId && !creatingNew}>
+        <div className="actionsModal">
+          <button className="cancel" onClick={onClose}>
+            Cancelar
+          </button>
+          <button
+            className="confirm"
+            onClick={handleCreateAndAdd}
+            disabled={!creatingNew && !selectedListId && !creatingNew}
+          >
             Confirmar
           </button>
-          <button onClick={onClose} style={{marginLeft:'1rem'}}>Cancelar</button>
         </div>
       </div>
     </div>
