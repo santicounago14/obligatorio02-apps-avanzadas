@@ -41,7 +41,11 @@ function OnboardingPage() {
       <h2>
         ¡Hola Darío, <br></br> te damos la bienvenida!
       </h2>
-      <h3>Selecciona tus filtros iniciales</h3>
+      <h3>¿Qué estás buscando hoy?</h3>
+
+      <input type="text" placeholder="Busca por artista o estadios" />
+
+      <h4>Tipo de evento</h4>
 
       <ChipsContainer
         eventTypes={eventTypes}
@@ -49,11 +53,8 @@ function OnboardingPage() {
         onToggle={handleEventTypeToggle}
       />
 
-      <DatePicker
-        text="Fecha de inicio: "
-        startDate={startDate}
-        onDateChange={handleDateChange}
-      />
+      <h4>Fecha mayor a</h4>
+      <DatePicker startDate={startDate} onDateChange={handleDateChange} />
 
       <button className="save-btn" onClick={handleSave}>
         Guardar filtros
