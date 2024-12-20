@@ -5,7 +5,7 @@ import { baseURL, apiKey } from "shared/utils/constants";
 import useEventsStore from "shared/store/useEventsStore";
 import ErrorState from "shared/components/ErrorState";
 import EmptyState from "shared/components/EmptyState";
-import FadeLoader from "react-spinners/FadeLoader";
+import Loader from "shared/components/Loader";
 import FavoriteListModal from "../components/FavoriteListModal";
 import Back from "../../../shared/components/back/Back";
 import "../styles/Details.css";
@@ -52,7 +52,7 @@ function DetailsPage() {
     }
   }, [isSuccess, event, discarded, navigate]);
 
-  if (isLoading) return <FadeLoader />;
+  if (isLoading) return <Loader />;
   if (isError) return <ErrorState error={error.message} />;
   if (!event)
     return (

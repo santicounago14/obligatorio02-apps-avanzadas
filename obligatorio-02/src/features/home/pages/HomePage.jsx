@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useEventsStore from "shared/store/useEventsStore";
 import ErrorState from "shared/components/ErrorState";
-import FadeLoader from "react-spinners/FadeLoader";
+import Loader from "shared/components/Loader";
 import EventCard from "../components/EventCard";
 import { baseURL, apiKey } from "shared/utils/constants";
 import FavoriteListModal from "../components/FavoriteListModal";
@@ -76,7 +76,7 @@ function HomePage() {
   const currentEvent = filteredEvents[currentEventIndex];
   const totalEvents = filteredEvents.length;
 
-  if (isLoading) return <FadeLoader />;
+  if (isLoading) return <Loader />;
   if (isError) return <ErrorState error={error.message} />;
 
   const handleDiscard = () => {

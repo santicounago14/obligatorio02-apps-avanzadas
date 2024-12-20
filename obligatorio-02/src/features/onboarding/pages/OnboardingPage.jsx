@@ -30,7 +30,9 @@ function OnboardingPage() {
     setFilters(filters);
 
     if (!selectedEventTypes.length && !keyword)
-      toast.error("Debe seleccionar al menos un tipo de evento o una palabra clave");
+      toast.error(
+        "Debe seleccionar al menos un tipo de evento o una palabra clave"
+      );
     else if (!startDate) toast.error("Debe seleccionar una fecha de inicio");
     else {
       navigate("/home", { state: { filters } });
@@ -44,7 +46,11 @@ function OnboardingPage() {
       </h2>
       <h3>¿Qué estás buscando hoy?</h3>
 
-      <input type="text" placeholder="Busca por artista o estadios" onChange={(e) => setKeyword(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Busca por artista o estadios"
+        onChange={(e) => setKeyword(e.target.value)}
+      />
 
       <h4>Tipo de evento</h4>
 
@@ -58,7 +64,7 @@ function OnboardingPage() {
       <DatePicker startDate={startDate} onDateChange={handleDateChange} />
 
       <button className="save-btn" onClick={handleSave}>
-        Guardar filtros
+        Buscar
       </button>
     </div>
   );
