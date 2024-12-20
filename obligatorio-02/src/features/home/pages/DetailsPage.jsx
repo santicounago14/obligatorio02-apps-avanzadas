@@ -1,225 +1,257 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { baseURL, apiKey } from 'shared/utils/constants';
-import useEventsStore from 'shared/store/useEventsStore';
-import ErrorMessage from 'shared/components/ErrorMessage';
-import FadeLoader from 'react-spinners/FadeLoader';
-import FavoriteListModal from '../components/FavoriteListModal';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { baseURL, apiKey } from "shared/utils/constants";
+import useEventsStore from "shared/store/useEventsStore";
+import ErrorMessage from "shared/components/ErrorMessage";
+import FadeLoader from "react-spinners/FadeLoader";
+import FavoriteListModal from "../components/FavoriteListModal";
+import Back from "../../../shared/components/back/Back";
+import "../styles/Details.css";
 
 async function fetchEventById(id) {
-    const url = `${baseURL}/events/${id}.json?apikey=${apiKey}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Error al obtener el evento.');
-    const data = await res.json();
-    return data;
+  const url = `${baseURL}/events/${id}.json?apikey=${apiKey}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Error al obtener el evento.");
+  const data = await res.json();
+  console.log(data, "data evento");
+  return data;
 }
 
 function DetailsPage() {
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const {
-        discardItem,
-        discarded,
-        favoriteLists,
-        createFavoriteList,
-        addItemToList
-    } = useEventsStore();
+  const {
+    discardItem,
+    discarded,
+    favoriteLists,
+    createFavoriteList,
+    addItemToList,
+  } = useEventsStore();
 
-    const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const { data: event, error, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ['eventDetail', id],
-        queryFn: () => fetchEventById(id),
-    });
+  const {
+    data: event,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["eventDetail", id],
+    queryFn: () => fetchEventById(id),
+  });
 
-    useEffect(() => {
-        if (isSuccess && event) {
-            if (discarded.includes(event.id)) {
-                navigate('/home');
-            }
-        }
-    }, [isSuccess, event, discarded, navigate]);
+  useEffect(() => {
+    if (isSuccess && event) {
+      if (discarded.includes(event.id)) {
+        navigate("/home");
+      }
+    }
+  }, [isSuccess, event, discarded, navigate]);
 
-    if (isLoading) return <FadeLoader />;
-    if (isError) return <ErrorMessage error={error.message} />;
-    if (!event) return <div>No hay datos del evento.</div>;
+  if (isLoading) return <FadeLoader />;
+  if (isError) return <ErrorMessage error={error.message} />;
+  if (!event) return <div>No hay datos del evento.</div>;
 
-    const {
-        name,
-        url,
-        images,
-        sales,
-        dates,
-        info,
-        pleaseNote,
-        priceRanges,
-        _embedded,
-        classifications
-    } = event;
+  const {
+    name,
+    url,
+    images,
+    sales,
+    dates,
+    info,
+    pleaseNote,
+    priceRanges,
+    _embedded,
+    classifications,
+    seatmap,
+  } = event;
 
-    const venue = _embedded?.venues?.[0];
-    const segmentName = classifications?.[0]?.segment?.name;
+  const venue = _embedded?.venues?.[0];
+  const segmentName = classifications?.[0]?.segment?.name;
 
-    const handleDiscard = () => {
-        discardItem(event.id);
-        navigate('/home');
-    };
+  const handleDiscard = () => {
+    discardItem(event.id);
+    navigate("/home");
+  };
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
-    return (
-        <div style={{ padding: '1rem' }}>
-            <h1>{name}</h1>
+  return (
+    <div>
+      <Back title="" subtitle="" backLink="/home" />
 
-            {images && images[0] && (
-                <img
-                    src={images[0].url}
-                    alt={name}
-                    style={{ maxWidth: '300px', display: 'block', marginBottom: '1rem' }}
-                />
-            )}
+      {images && images[0] && (
+        <img src={images[0].url} alt={name} className="image-header" />
+      )}
 
-            {url && (
-                <p>
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                        Comprar Tickets
-                    </a>
-                </p>
-            )}
+      <div className="details-container">
+        {segmentName && (
+          <section className="tags">
+            <div className="tag"> {segmentName}</div>
+          </section>
+        )}
+        <h1>{name}</h1>
+        <div className="subInfo">
+          {dates && dates.start && (
+            <div className="date">
+              <span className="material-symbols-rounded">calendar_today</span>
+              {dates.start.localDate} {dates.start.localTime}
+            </div>
+          )}
+          <span>|</span>
+          {venue && (
+            <div className="location">
+              <span className="material-symbols-rounded">location_on</span>
+              <span>{venue.name},</span>
+              {venue.city?.name}
+            </div>
+          )}
+        </div>
 
-            {dates && dates.start && (
-                <div>
-                    <h2>Fechas</h2>
-                    <p>
-                        <strong>Fecha local:</strong> {dates.start.localDate} {dates.start.localTime}
-                    </p>
-                    <p>
-                        <strong>DateTime UTC:</strong> {dates.start.dateTime}
-                    </p>
-                    <p>
-                        <strong>Zona Horaria:</strong> {dates.timezone}
-                    </p>
-                    {dates.status?.code && (
-                        <p>
-                            <strong>Estado de venta:</strong> {dates.status.code}
-                        </p>
-                    )}
+        {info && (
+          <div>
+            <h3 className="subtitle">Sobre el evento</h3>
+            <p>{info}</p>
+          </div>
+        )}
+
+        {sales && (
+          <div>
+            <span className="subtitleConTag">
+              <h3 className="">Venta de entradas</h3>
+              <section className="tags">
+                <div className="tag"> {dates.status.code}</div>
+              </section>
+            </span>
+
+            {sales.public && (
+              <section className="contenedorDates">
+                <div className="infoDates">
+                  <div className="title">
+                    <span className="material-symbols-rounded">
+                      calendar_today
+                    </span>
+                    Desde
+                  </div>
+                  {sales.public.startDateTime}
                 </div>
-            )}
-
-            {sales && (
-                <div>
-                    <h2>Ventas</h2>
-                    {sales.public && (
-                        <div>
-                            <h3>Público</h3>
-                            <p>
-                                <strong>Inicio:</strong> {sales.public.startDateTime}
-                            </p>
-                            <p>
-                                <strong>Fin:</strong> {sales.public.endDateTime}
-                            </p>
-                        </div>
-                    )}
-
-                    {sales.presales && sales.presales.length > 0 && (
-                        <div>
-                            <h3>Preventas</h3>
-                            {sales.presales.map((p, idx) => (
-                                <div key={idx}>
-                                    <p>
-                                        <strong>Nombre:</strong> {p.name}
-                                    </p>
-                                    <p>
-                                        <strong>Inicio:</strong> {p.startDateTime}
-                                    </p>
-                                    <p>
-                                        <strong>Fin:</strong> {p.endDateTime}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                <div className="infoDates">
+                  <div className="title">
+                    <span className="material-symbols-rounded">
+                      calendar_today
+                    </span>
+                    Hasta
+                  </div>
+                  {sales.public.endDateTime}
                 </div>
-            )}
-
-            {info && (
-                <div>
-                    <h2>Información</h2>
-                    <p>{info}</p>
-                </div>
-            )}
-
-            {pleaseNote && (
-                <div>
-                    <h2>Nota</h2>
-                    <p>{pleaseNote}</p>
-                </div>
+              </section>
             )}
 
             {priceRanges && priceRanges.length > 0 && (
-                <div>
-                    <h2>Rangos de Precios</h2>
-                    {priceRanges.map((pr, idx) => (
-                        <div key={idx}>
-                            <p>
-                                <strong>Tipo:</strong> {pr.type}
-                            </p>
-                            <p>
-                                <strong>Moneda:</strong> {pr.currency}
-                            </p>
-                            <p>
-                                <strong>Mínimo:</strong> {pr.min}
-                            </p>
-                            <p>
-                                <strong>Máximo:</strong> {pr.max}
-                            </p>
+              <div>
+                <h3 className="subtitle">Rangos de Precios</h3>
+                {priceRanges.map((pr, idx) => (
+                  <div key={idx} className="precio">
+                    <span className="type">{pr.type}</span>
+                    <span className="valor">
+                      Entre {pr.currency} {pr.min} y {pr.currency} {pr.max}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {seatmap && (
+              <div className="infoSeatmap">
+                <h3 className="subtitle">Lugar</h3>
+                {venue && (
+                  <div>
+                    <strong className="nombre">{venue.name}</strong>
+                    <p>
+                      {venue.city?.name}, {venue.country?.name}
+                    </p>
+                  </div>
+                )}
+                <img className="seatmap" src={seatmap.staticUrl} />
+              </div>
+            )}
+
+            {sales.presales && sales.presales.length > 0 && (
+              <div>
+                <h3 className="subtitle">Preventas</h3>
+                {sales.presales.map((p, idx) => (
+                  <div key={idx} className="preventa">
+                    <h4>{p.name}</h4>
+                    <section className="contenedorDates">
+                      <div className="infoDates">
+                        <div className="title">
+                          <span className="material-symbols-rounded">
+                            calendar_today
+                          </span>
+                          Inicio
                         </div>
-                    ))}
-                </div>
+                        {p.startDateTime}
+                      </div>
+                      <div className="infoDates">
+                        <div className="title">
+                          <span className="material-symbols-rounded">
+                            calendar_today
+                          </span>
+                          Fin
+                        </div>
+                        {p.endDateTime}
+                      </div>
+                    </section>
+                  </div>
+                ))}
+              </div>
             )}
+          </div>
+        )}
 
-            {venue && (
-                <div>
-                    <h2>Lugar</h2>
-                    <p>
-                        <strong>{venue.name}</strong>
-                    </p>
-                    <p>
-                        {venue.city?.name}, {venue.country?.name}
-                    </p>
-                </div>
-            )}
+        {url && (
+          <div className="comprarTickets">
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              ¡Comprar Tickets!
+            </a>
+          </div>
+        )}
 
-            {segmentName && (
-                <p>
-                    <strong>Clasificación:</strong> {segmentName}
-                </p>
-            )}
+        {pleaseNote && (
+          <div>
+            <h3 className="subtitle">Advertencia</h3>
+            <p>{pleaseNote}</p>
+          </div>
+        )}
 
-            <button onClick={handleDiscard} style={{ marginRight: '1rem' }}>
-                Descartar
-            </button>
-            <button onClick={handleOpenModal}>Agregar a Favoritos</button>
-
-            <FavoriteListModal
-              isOpen={modalOpen}
-              onClose={handleCloseModal}
-              favoriteLists={favoriteLists}
-              createFavoriteList={createFavoriteList}
-              addItemToList={addItemToList}
-              event={event}
-            />
+        <div className="actions">
+          <button className="discard" onClick={handleDiscard}>
+            Descartar :(
+          </button>
+          <button className="add" onClick={handleOpenModal}>
+            Guardar :)
+          </button>
         </div>
-    );
+      </div>
+      <FavoriteListModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        favoriteLists={favoriteLists}
+        createFavoriteList={createFavoriteList}
+        addItemToList={addItemToList}
+        event={event}
+      />
+    </div>
+  );
 }
 
 export default DetailsPage;

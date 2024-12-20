@@ -1,0 +1,182 @@
+.image-header {
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 330px;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.details-container {
+  position: relative;
+  margin-top: 280px;
+  z-index: 1;
+}
+
+.details-container h1 {
+  color: #2e3a59;
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.details-container .subInfo {
+  display: flex;
+  gap: 10px;
+}
+
+.details-container .subInfo .date {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.details-container .subInfo .location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.details-container .tags .tag {
+  background-color: #f4f4f4;
+  padding: 6px 12px;
+  border-radius: 20px;
+  width: max-content;
+  font-weight: 500;
+  color: #2e3a59;
+  font-size: 14px;
+  border: 1px solid #cbcbcb;
+}
+
+.subtitle {
+  margin-top: 30px;
+  color: #2e3a59;
+  margin-bottom: 0px;
+  font-weight: 500;
+}
+
+.subtitleConTag {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+.subtitleConTag h3 {
+  color: #2e3a59;
+  margin-bottom: 0px;
+  font-weight: 500;
+}
+
+.contenedorDates {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.contenedorDates .infoDates {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.contenedorDates .infoDates .title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.precio {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.precio .type {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.precio .valor {
+  font-size: 15px;
+}
+
+.preventa {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.preventa h4 {
+  margin: 0px;
+  font-weight: 600;
+  color: #303030;
+}
+
+.comprarTickets {
+  width: -webkit-fill-available;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  padding: 18px;
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+.comprarTickets a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+.seatmap {
+  width: 100%;
+}
+
+.infoSeatmap div {
+  margin-top: 20px;
+}
+
+.infoSeatmap p {
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+.actions {
+  display: flex;
+  width: -webkit-fill-available;
+  gap: 10px;
+}
+
+.actions button {
+  width: 50%;
+  padding: 15px;
+  border-radius: 15px;
+  border: none;
+}
+
+.actions .discard {
+  background-color: #ff4c4c;
+  color: #fff;
+  font-weight: 600;
+}
+
+.actions .add {
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
