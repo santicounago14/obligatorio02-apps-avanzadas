@@ -1,66 +1,61 @@
 import React from "react";
-import useEventStore from "../store/useEventStore";
-import Event from "./Event"; // Importamos el componente Event
-import Loader from "./Loader"; // Importamos el loader
+import { useQuery } from "@tanstack/react-query";
+import useEventStore from "../../store/useEventStore";
+import Event from "../event/Event";
+import { baseURL, apiKey } from "../../helpers/constants";
 
 function Events() {
-  const { events, currentEventIndex, setEvents, addToFavorites, discardEvent } =
+  const { events, setEvents, currentEventIndex, addToFavorites, discardEvent } =
     useEventStore();
 
-  const { isLoading, isError } = useQuery({
-    queryKey: ["events"],
+  const filters = JSON.parse(localStorage.getItem("filters")) || {
+    eventTypes: [],
+  };
+
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["events", filters],
     queryFn: async () => {
+      if (!filters.eventTypes.length) {
+        throw new Error("No filters provided");
+      }
       const response = await fetch(
-        `${baseURL}/events.json?classificationName=Fairs & Festivals&countryCode=US&apikey=${apiKey}&size=50`
+        `${baseURL}/events.json?classificationName=${filters.eventTypes.join(
+          ","
+        )}&countryCode=US&apikey=${apiKey}&size=50`
       );
-      const data = await response.json();
-
-      const rawEvents = data._embedded?.events || [];
-
-      // Filtrar eventos únicos por nombre y quedarte con la fecha más cercana
-      const filteredEvents = Object.values(
-        rawEvents.reduce((acc, event) => {
-          const key = event.name; // Usar el nombre como clave para identificar duplicados
-          const currentDate = new Date(event.dates.start.dateTime);
-
-          if (
-            !acc[key] || // Si no existe aún, agregarlo
-            currentDate < new Date(acc[key].dates.start.dateTime) // Si la nueva fecha es más cercana, reemplazamos
-          ) {
-            acc[key] = event;
-          }
-
-          return acc;
-        }, {})
-      );
-
-      // Filtramos los eventos descartados (ignorados y descartados son tratados igual)
-      const discardedIds = useEventStore.getState().discarded;
-      const newFilteredEvents = filteredEvents.filter(
-        (event) => !discardedIds.includes(event.id)
-      );
-
-      // Guardamos los eventos en el estado
-      setEvents(newFilteredEvents);
-      return newFilteredEvents;
+      if (!response.ok) {
+        throw new Error("Failed to fetch events");
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data?._embedded?.events) {
+        setEvents(data._embedded.events);
+      }
     },
   });
 
-  if (isLoading) return <Loader />; // Mostrar el loader mientras se cargan los eventos
-  if (isError) return <div>Error al cargar los eventos</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading events</div>;
+  }
 
   const currentEvent = events[currentEventIndex];
 
   return (
-    <div>
+    <div className="home">
+      <h1>¡Hola, Santiago! ¿Qué estás buscando?</h1>
       {currentEvent ? (
         <Event
-          event={currentEvent} // Pasamos el evento actual como prop
-          onAddToFavorites={addToFavorites} // Función para agregar a favoritos
-          onDiscard={discardEvent} // Función para descartar el evento
+          event={currentEvent}
+          onAddToFavorites={() => addToFavorites(currentEvent)}
+          onDiscard={() => discardEvent()}
         />
       ) : (
-        <p>No hay eventos para mostrar.</p>
+        <p>No hay más eventos disponibles</p>
       )}
     </div>
   );

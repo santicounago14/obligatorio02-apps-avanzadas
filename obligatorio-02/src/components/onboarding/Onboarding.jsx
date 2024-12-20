@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useEventStore from "../../store/useEventStore"; // Importamos el store
 import "./Onboarding.css"; // Para el estilo de los chips
 
@@ -6,6 +7,7 @@ function Onboarding() {
   const { setFilters } = useEventStore(); // Accedemos al setFilters en el store de Zustand
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [startDate, setStartDate] = useState("");
+  const navigate = useNavigate();
 
   // Tipos de eventos
   const eventTypes = [
@@ -36,10 +38,13 @@ function Onboarding() {
   };
 
   const handleSave = () => {
-    // Guardar los filtros y la fecha en el store y en localStorage
+    // Guardar los filtros y la fecha en el store
     const filters = { eventTypes: selectedFilters, startDate };
     setFilters(filters);
-    localStorage.setItem("filters", JSON.stringify(filters)); // Persistir filtros en localStorage
+
+    // Redirigir a la ruta /home y pasar los filtros como parámetros
+    navigate("/home", { state: { filters } });
+    console.log("navigate");
   };
 
   return (

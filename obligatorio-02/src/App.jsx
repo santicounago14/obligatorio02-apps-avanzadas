@@ -1,66 +1,19 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import { baseURL, apiKey } from "./helpers/constants";
-import Header from "./components/header/Header";
-import SearchBar from "./components/searchBar/SearchBar";
-import Toolbar from "./components/toolbar/Toolbar";
-import Result from "./components/result/Result";
-import Event from "./components/event/Event";
+import { Routes, Route } from "react-router-dom";
+import Onboarding from "./components/onboarding/Onboarding";
+import Events from "./components/events/Events"; // Asegúrate de que tienes un componente Home para mostrar los eventos
+import useEventStore from "./store/useEventStore";
 
 function App() {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(
-      `${baseURL}/events.json?classificationName=Fairs & Festivals&countryCode=US&apikey=${apiKey}&size=50`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const rawEvents = data._embedded?.events || [];
-        console.log(data, "data");
-
-        // Filtrar eventos únicos por nombre y quedarte con la fecha más cercana
-        const filteredEvents = Object.values(
-          rawEvents.reduce((acc, event) => {
-            const key = event.name; // Usar el nombre como clave para identificar duplicados
-            const currentDate = new Date(event.dates.start.dateTime);
-
-            if (
-              !acc[key] || // Si no existe aún, agregarlo
-              currentDate < new Date(acc[key].dates.start.localDate) // Si la nueva fecha es más cercana, reemplazamos
-            ) {
-              acc[key] = event;
-            }
-
-            return acc;
-          }, {})
-        );
-
-        console.log(filteredEvents, "filteredEvents");
-
-        setEvents(filteredEvents); // Guardar eventos únicos
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const filters = JSON.parse(localStorage.getItem("filters"));
 
   return (
-    <section className="appContent">
-      <Header />
-      <h1>¡Hola, Santiago! ¿Qué estás buscando?</h1>
-      <SearchBar />
-      <Result />
-      <Event />
-      <Toolbar />
-    </section>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={filters ? <Events /> : <Onboarding />} />
+        <Route path="/home" element={<Events />} />
+      </Routes>
+    </div>
   );
 }
 

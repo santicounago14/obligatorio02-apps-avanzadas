@@ -21,6 +21,7 @@ const useEventStore = create(
       // Función para agregar un evento a favoritos
       addToFavorites: (event) =>
         set((state) => {
+          console.log(event, "evento fvorito");
           // Asegurarse de que no se salga del rango de eventos
           const nextIndex = state.currentEventIndex + 1;
           const nextEventIndex =
@@ -37,6 +38,7 @@ const useEventStore = create(
       // Función para descartar un evento
       discardEvent: () =>
         set((state) => {
+          console.log("descartado");
           const eventToDiscard = state.events[state.currentEventIndex];
           const updatedDiscarded = [...state.discarded, eventToDiscard.id];
 
